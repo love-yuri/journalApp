@@ -1,0 +1,8 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="Theme.Journal" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/toolbarColor</item>
+        <item name="colorPrimaryDark">@color/toolbarColor</item>
+        <item name="colorAccent">@color/toolbarColor</item>
+    </style>
+</resources>
