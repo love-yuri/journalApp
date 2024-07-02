@@ -34,4 +34,5 @@
     <string name="readFileError">读取文件错误!!!</string>
     <string name="jsonDecodeError">JSON转换失败</string>
     <string name="valueCheckError">数据验证失败!</string>
+    <string name="testText">测试文字</string>
 </resources>
