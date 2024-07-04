@@ -40,9 +40,13 @@ android {
 }
 
 dependencies {
+    /* json解析 */
+    implementation(libs.kotlinx.serialization.json)
+
 
     /* data room 依赖 */
     implementation(libs.androidx.room.runtime)
+
     annotationProcessor(libs.androidx.room.compiler)
     ksp(libs.androidx.room.compiler)
     implementation(libs.androidx.room.ktx)
