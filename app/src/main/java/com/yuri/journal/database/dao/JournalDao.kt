@@ -21,6 +21,9 @@ interface JournalDao {
     @Delete
     suspend fun delete(value: JournalEntity)
 
+    @Query("select * from $JOURNAL_TABLE_NAME")
+    suspend fun list(): List<JournalEntity>
+
     @Query("delete from $JOURNAL_TABLE_NAME where id = :id")
     suspend fun deleteById(id: Int): Int
 
