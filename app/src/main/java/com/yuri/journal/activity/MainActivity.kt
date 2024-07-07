@@ -1,5 +1,6 @@
 package com.yuri.journal.activity
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.constraintlayout.widget.ConstraintSet.Layout
 import androidx.lifecycle.lifecycleScope
@@ -62,6 +63,12 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                 val res = AppDatabase.journalDao.insert(journal)
                 messageUtils.createToast("创建成功 $res")
             }
+        }
+
+        binding.fab2.setOnClickListener {
+            this@MainActivity.startActivity(Intent(
+                this@MainActivity, TestActivity::class.java
+            ))
         }
     }
 }
