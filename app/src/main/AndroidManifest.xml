@@ -12,6 +12,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Journal">
+        <activity
+            android:name=".activity.TestActivity"
+            android:exported="true" />
 
         <activity
             android:name=".activity.MainActivity"
