@@ -16,10 +16,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import kotlinx.serialization.DeserializationStrategy
-import kotlinx.serialization.descriptors.SerialDescriptor
-import kotlinx.serialization.encoding.Decoder
-import kotlinx.serialization.json.Json
+import com.google.android.material.appbar.AppBarLayout
 
 class MainActivity : BaseActivity<ActivityMainBinding>() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,10 +29,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
      * 初始化界面
      */
     private fun initView() {
-        setSupportActionBar(binding.toolbar)
+//        setSupportActionBar(binding.toolbar)
         lifecycleScope.launch {
             val res = AppDatabase.journalDao.list()
-            messageUtils.createToast("创建成功 $res")
             withContext(Dispatchers.Main) {
                 binding.journalList.layoutManager = GridLayoutManager(this@MainActivity, 1)
                 binding.journalList.adapter = JournalListAdapter(
@@ -70,5 +66,11 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                 this@MainActivity, TestActivity::class.java
             ))
         }
+    }
+}
+
+class AppBarStateChangeListener: AppBarLayout.OnOffsetChangedListener {
+    override fun onOffsetChanged(appBarLayout: AppBarLayout?, verticalOffset: Int) {
+        TODO("Not yet implemented")
     }
 }
