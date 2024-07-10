@@ -43,6 +43,8 @@ dependencies {
     /* json解析 */
     implementation(libs.kotlinx.serialization.json)
 
+    // 圆角头像
+    implementation (libs.roundedimageview)
 
     /* data room 依赖 */
     implementation(libs.androidx.room.runtime)
