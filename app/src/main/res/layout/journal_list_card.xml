@@ -1,15 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:layout_margin="16dp"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="4dp">
 
-    <TextView
-        android:id="@+id/text"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:textSize="40sp"
-        tools:ignore="MissingConstraints"
-        android:text="@string/testText" />
+        android:layout_height="match_parent"
+        android:paddingVertical="@dimen/card_padding_tb"
+        android:paddingHorizontal="@dimen/card_padding_rl"
+        android:background="#589CFF">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <com.makeramen.roundedimageview.RoundedImageView
+        android:id="@+id/avatar"
+        android:src="@drawable/avatar"
+        android:layout_width="@dimen/card_avatar_width"
+        android:layout_height="@dimen/card_avatar_width"
+        app:riv_corner_radius="@dimen/card_avatar_radius"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:ignore="MissingConstraints" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintStart_toEndOf="@+id/avatar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginStart="@dimen/fab_margin"
+        android:orientation="vertical"
+        android:gravity="center|left"
+        tools:ignore="MissingConstraints,RtlHardcoded">
+
+        <TextView
+            android:id="@+id/time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/card_text_size"
+            android:textColor="#C4C4C4"
+            android:text="@string/card_time_test" />
+
+        <TextView
+            android:id="@+id/desc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/card_text_size"
+            android:textColor="#FFFFFF"
+            android:layout_marginTop="10dp"
+            android:text="@string/card_desc_test" />
+
+    </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>
