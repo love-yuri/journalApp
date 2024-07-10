@@ -35,4 +35,6 @@
     <string name="jsonDecodeError">JSON转换失败</string>
     <string name="valueCheckError">数据验证失败!</string>
     <string name="testText">测试文字</string>
+    <string name="card_time_test">10:00 am - 5:30 pm</string>
+    <string name="card_desc_test">Gala Music Festival</string>
 </resources>
