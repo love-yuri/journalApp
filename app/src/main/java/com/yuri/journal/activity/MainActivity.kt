@@ -1,10 +1,14 @@
 package com.yuri.journal.activity
 
+import android.annotation.SuppressLint
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import androidx.constraintlayout.widget.ConstraintSet.Layout
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.yuri.journal.base.BaseActivity
 import com.yuri.journal.components.JournalListAdapter
 import com.yuri.journal.database.AppDatabase
@@ -17,6 +21,8 @@ import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import com.google.android.material.appbar.AppBarLayout
+import com.yuri.journal.R
+import com.yuri.journal.components.JournalListDecoration
 
 class MainActivity : BaseActivity<ActivityMainBinding>() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,15 +35,19 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
      * 初始化界面
      */
     private fun initView() {
-//        setSupportActionBar(binding.toolbar)
+        window.statusBarColor = Color.TRANSPARENT
+
+        binding.journalList.addItemDecoration(JournalListDecoration())
+        binding.journalList.layoutManager = GridLayoutManager(this@MainActivity, 1)
         lifecycleScope.launch {
             val res = AppDatabase.journalDao.list()
             withContext(Dispatchers.Main) {
-                binding.journalList.layoutManager = GridLayoutManager(this@MainActivity, 1)
-                binding.journalList.adapter = JournalListAdapter(
-                    res
-                )
+                binding.journalList.adapter = JournalListAdapter(res)
             }
+        }
+
+        binding.toolbar.setNavigationOnClickListener {
+            binding.drawerLayout.openDrawer(binding.navView)
         }
     }
 
