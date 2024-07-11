@@ -57,30 +57,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
      */
     private fun initEvent() {
         binding.fab.setOnClickListener {
-            val journal = JournalEntity(
-                null,
-                null,
-                "yuri is yes",
-                null,
-                TimeUtils.now,
-                TimeUtils.now,
-            )
-            lifecycleScope.launch {
-                val res = AppDatabase.journalDao.insert(journal)
-                messageUtils.createToast("创建成功 $res")
-            }
+            startActivity(Intent(this, EditJournalActivity::class.java))
         }
-
-        binding.fab2.setOnClickListener {
-            this@MainActivity.startActivity(Intent(
-                this@MainActivity, TestActivity::class.java
-            ))
-        }
-    }
-}
-
-class AppBarStateChangeListener: AppBarLayout.OnOffsetChangedListener {
-    override fun onOffsetChanged(appBarLayout: AppBarLayout?, verticalOffset: Int) {
-        TODO("Not yet implemented")
     }
 }

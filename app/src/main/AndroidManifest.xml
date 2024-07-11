@@ -13,9 +13,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Journal">
         <activity
-            android:name=".activity.TestActivity"
-            android:exported="true" />
-
+            android:name=".activity.EditJournalActivity"
+            android:exported="false" />
         <activity
             android:name=".activity.MainActivity"
             android:exported="true"
