@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <!-- 使用软键盘权限 -->
+    <uses-permission android:name="android.permission.INPUT_METHOD"/>
+
     <application
         android:name=".JournalApp"
         android:allowBackup="true"

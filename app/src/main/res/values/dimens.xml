@@ -1,9 +1,11 @@
 <resources>
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="edit_margin">16dp</dimen>
     <dimen name="card_avatar_width">60dp</dimen>
     <dimen name="card_avatar_radius">30dp</dimen>
     <dimen name="card_padding_rl">17dp</dimen>
     <dimen name="card_padding_tb">10dp</dimen>
     <dimen name="card_text_size">20sp</dimen>
     <dimen name="journal_list_padding">10dp</dimen>
+    <dimen name="divider_margin">3dp</dimen>
 </resources>
