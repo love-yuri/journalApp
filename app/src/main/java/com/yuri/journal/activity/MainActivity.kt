@@ -1,30 +1,25 @@
 package com.yuri.journal.activity
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
-import androidx.constraintlayout.widget.ConstraintSet.Layout
-import androidx.core.content.ContextCompat
+import androidx.activity.viewModels
+import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.yuri.journal.base.BaseActivity
+import com.yuri.journal.activity.EditJournalActivity.Companion.startEditJournalActivity
+import com.yuri.journal.common.BaseActivity
 import com.yuri.journal.components.JournalListAdapter
 import com.yuri.journal.database.AppDatabase
-import com.yuri.journal.database.entity.JournalEntity
 import com.yuri.journal.databinding.ActivityMainBinding
-import com.yuri.journal.utils.MessageUtils
-import com.yuri.journal.utils.TimeUtils
+import com.yuri.journal.viewModel.JournalViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import com.google.android.material.appbar.AppBarLayout
-import com.yuri.journal.R
-import com.yuri.journal.components.JournalListDecoration
 
 class MainActivity : BaseActivity<ActivityMainBinding>() {
+    private val viewModel: JournalViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initView()
@@ -37,13 +32,15 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     private fun initView() {
         window.statusBarColor = Color.TRANSPARENT
 
-        binding.journalList.addItemDecoration(JournalListDecoration())
+        binding.journalList.addItemDecoration(JournalListAdapter.JournalListDecoration())
         binding.journalList.layoutManager = GridLayoutManager(this@MainActivity, 1)
-        lifecycleScope.launch {
-            val res = AppDatabase.journalDao.list()
-            withContext(Dispatchers.Main) {
-                binding.journalList.adapter = JournalListAdapter(res)
-            }
+
+        viewModel.data.value?.also {
+            binding.journalList.adapter = JournalListAdapter(it)
+        }
+
+        viewModel.data.observe(this) { items ->
+            binding.journalList.adapter = JournalListAdapter(items)
         }
 
         binding.toolbar.setNavigationOnClickListener {
@@ -57,7 +54,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
      */
     private fun initEvent() {
         binding.fab.setOnClickListener {
-            startActivity(Intent(this, EditJournalActivity::class.java))
+            startEditJournalActivity(EditJournalActivity.Mode.EDIT)
         }
     }
 }
