@@ -51,7 +51,7 @@
                 android:background="@null"
                 android:hint="@string/title"
                 android:inputType="text"
-                android:textColor="#D3D3D3" />
+                android:textSize="@dimen/title_size" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -86,10 +86,11 @@
             </LinearLayout>
 
             <com.yuri.journal.components.JournalEditText
-                android:id="@+id/journal_edit"
+                android:id="@+id/content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@null"
+                android:textSize="@dimen/content_size"
                 android:hint="@string/start_edit_tip" />
 
         </LinearLayout>

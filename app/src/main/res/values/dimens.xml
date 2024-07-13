@@ -8,4 +8,6 @@
     <dimen name="card_text_size">20sp</dimen>
     <dimen name="journal_list_padding">10dp</dimen>
     <dimen name="divider_margin">3dp</dimen>
+    <dimen name="title_size">25sp</dimen>
+    <dimen name="content_size">20sp</dimen>
 </resources>
