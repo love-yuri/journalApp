@@ -26,7 +26,7 @@ class MessageUtils(
             .show()
     }
 
-    fun createErrorDialog(msg: String) {
+    fun createDialog(msg: String) {
         createDialog(context.getString(R.string.error), msg)
     }
 
