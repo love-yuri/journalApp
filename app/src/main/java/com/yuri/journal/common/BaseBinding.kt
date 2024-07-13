@@ -1,6 +1,5 @@
-package com.yuri.journal.base
+package com.yuri.journal.common
 
-import android.util.Log
 import android.view.LayoutInflater
 import androidx.viewbinding.ViewBinding
 import java.lang.reflect.Method
