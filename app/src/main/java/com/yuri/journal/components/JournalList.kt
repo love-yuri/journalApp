@@ -31,15 +31,14 @@ class JournalListAdapter(
         val binding = holder.binding
 //        binding.text.text = "$position: ${value.content}"
     }
-}
-
-/**
- * 上下间隔类
- */
-class JournalListDecoration: RecyclerView.ItemDecoration() {
-    override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
-        with(outRect) {
-            bottom = 20
+    /**
+     * 上下间隔类
+     */
+    class JournalListDecoration: RecyclerView.ItemDecoration() {
+        override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
+            with(outRect) {
+                bottom = 20
+            }
         }
     }
 }
