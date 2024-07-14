@@ -5,26 +5,38 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
+import android.view.MenuItem
 import android.view.MotionEvent
 import androidx.activity.viewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.viewModelScope
 import com.yuri.journal.R
 import com.yuri.journal.common.BaseActivity
 import com.yuri.journal.common.log
 import com.yuri.journal.constants.ActivityConstant.ACTIVITY_CONFIG_NAME
+import com.yuri.journal.constants.GlobalSharedConstant
+import com.yuri.journal.database.AppDatabase
+import com.yuri.journal.database.entity.JournalEntity
 import com.yuri.journal.databinding.ActivityEditJournalBinding
+import com.yuri.journal.utils.MessageUtils.createDialog
+import com.yuri.journal.utils.MessageUtils.createToast
+import com.yuri.journal.utils.StringUtils.parseJson
+import com.yuri.journal.utils.TimeUtils
 import com.yuri.journal.utils.ViewUtils.inView
 import com.yuri.journal.utils.ViewUtils.showSoftInput
 import com.yuri.journal.viewModel.JournalViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
 
 class EditJournalActivity : BaseActivity<ActivityEditJournalBinding>() {
 
+    private val viewModel: JournalViewModel = GlobalSharedConstant.journalViewModel
     private lateinit var config: Config
-    private val viewModel: JournalViewModel by viewModels()
 
     enum class Mode {
         CREATE,
@@ -54,6 +66,7 @@ class EditJournalActivity : BaseActivity<ActivityEditJournalBinding>() {
         super.onCreate(savedInstanceState)
 
         setSupportActionBar(binding.toolbar)
+
         // 初始化界面
         initView()
 
@@ -63,8 +76,47 @@ class EditJournalActivity : BaseActivity<ActivityEditJournalBinding>() {
 
     private fun initView() {
         binding.toolbar.setNavigationOnClickListener {
-            finish()
+            when(config.mode) {
+                Mode.CREATE -> {
+                    if(config.id == null && content.isNotEmpty()) {
+                        saveJournal()
+                    }
+                    finish()
+                }
+                Mode.EDIT -> {
+                    if(config.id != null && content.isNotEmpty()) {
+                        updateJournal()
+                        finish()
+                    } else {
+                        createDialog("数据异常!!!")
+                    }
+                }
+            }
         }
+    }
+
+    /**
+     * 保存数据
+     */
+    private fun saveJournal() {
+        viewModel.insert(JournalEntity(
+            title = title,
+            content = content
+        ))
+    }
+
+    /**
+     * 更新数据
+     */
+    private fun updateJournal() {
+        viewModel.update(
+            JournalEntity(
+                config.id,
+                title,
+                content,
+                updateTime = TimeUtils.now
+            )
+        )
     }
 
     /**
@@ -87,11 +139,6 @@ class EditJournalActivity : BaseActivity<ActivityEditJournalBinding>() {
         }
 
         return super.dispatchTouchEvent(ev)
-    }
-
-    override fun onDestroy() {
-        messageUtils.createToast("销毁了.... ")
-        super.onDestroy()
     }
 
     /**
@@ -117,16 +164,40 @@ class EditJournalActivity : BaseActivity<ActivityEditJournalBinding>() {
         return super.onCreateOptionsMenu(menu)
     }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId) {
+            R.id.delete -> {
+                if(config.mode == Mode.EDIT && config.id != null) {
+                    viewModel.delete(config.id!!)
+                    createToast("删除成功")
+                    finish()
+                } else {
+                   finish()
+                }
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
     /**
      * 解析配置文件
      */
     private fun initConfig() {
         intent.getStringExtra(ACTIVITY_CONFIG_NAME)?.also {
             try {
-                config = Json.decodeFromString<Config>(it)
+                config = it.parseJson()
                 if (config.mode == Mode.EDIT) {
                     if (config.id == null) {
                         error("id为空!!!，无法编辑")
+                    }
+                    val dao = AppDatabase.journalDao
+                    lifecycleScope.launch {
+                        dao.getById(config.id!!)?.also { journal ->
+                            withContext(Dispatchers.Main) {
+                                title = journal.title ?: ""
+                                content = journal.content
+                            }
+                        }
                     }
                 }
             } catch (e: Exception) {
@@ -140,7 +211,7 @@ class EditJournalActivity : BaseActivity<ActivityEditJournalBinding>() {
 
     companion object {
         // 开启新activity
-        fun  Activity.startEditJournalActivity(mode: Mode, id: Int? = null) {
+        fun Activity.startEditJournalActivity(mode: Mode, id: Int? = null) {
             startActivity(Intent(this, EditJournalActivity::class.java).apply {
                 putExtra(ACTIVITY_CONFIG_NAME, Json.encodeToString(Config(
                     mode,
