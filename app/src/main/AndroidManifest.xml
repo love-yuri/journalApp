@@ -5,6 +5,14 @@
     <!-- 使用软键盘权限 -->
     <uses-permission android:name="android.permission.INPUT_METHOD"/>
 
+    <!-- 悬浮通知权限 -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
+    <!-- 弹出窗口权限 -->
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+
+
+
     <application
         android:name=".JournalApp"
         android:allowBackup="true"
@@ -28,6 +36,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
     </application>
 
 </manifest>
