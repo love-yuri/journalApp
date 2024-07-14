@@ -1,24 +1,21 @@
 package com.yuri.journal.activity
 
-import android.content.Intent
+
 import android.graphics.Color
 import android.os.Bundle
 import androidx.activity.viewModels
-import androidx.lifecycle.Observer
-import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.GridLayoutManager
 import com.yuri.journal.activity.EditJournalActivity.Companion.startEditJournalActivity
 import com.yuri.journal.common.BaseActivity
-import com.yuri.journal.components.JournalListAdapter
-import com.yuri.journal.database.AppDatabase
+import com.yuri.journal.constants.GlobalSharedConstant
 import com.yuri.journal.databinding.ActivityMainBinding
+import com.yuri.journal.utils.MessageUtils.notify
+import com.yuri.journal.utils.ViewUtils.goToSetNotify
+import com.yuri.journal.utils.ViewUtils.isOpenNotify
 import com.yuri.journal.viewModel.JournalViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+
 
 class MainActivity : BaseActivity<ActivityMainBinding>() {
-    private val viewModel: JournalViewModel by viewModels()
+    private val viewModel: JournalViewModel = GlobalSharedConstant.journalViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,19 +29,12 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     private fun initView() {
         window.statusBarColor = Color.TRANSPARENT
 
-        binding.journalList.addItemDecoration(JournalListAdapter.JournalListDecoration())
-        binding.journalList.layoutManager = GridLayoutManager(this@MainActivity, 1)
-
-        viewModel.data.value?.also {
-            binding.journalList.adapter = JournalListAdapter(it)
+        binding.journalList.addCallBack { id ->
+            startEditJournalActivity(EditJournalActivity.Mode.EDIT, id)
         }
 
-        viewModel.data.observe(this) { items ->
-            binding.journalList.adapter = JournalListAdapter(items)
-        }
-
-        binding.toolbar.setNavigationOnClickListener {
-            binding.drawerLayout.openDrawer(binding.navView)
+        if (!isOpenNotify()) {
+            goToSetNotify()
         }
     }
 
@@ -54,7 +44,18 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
      */
     private fun initEvent() {
         binding.fab.setOnClickListener {
-            startEditJournalActivity(EditJournalActivity.Mode.EDIT)
+            startEditJournalActivity(EditJournalActivity.Mode.CREATE)
+//            val res = viewModel.insert(JournalEntity(
+//                null,
+//                "sfsd ",
+//                "",
+//                null,
+//            ))
+        }
+
+        binding.toolbar.setNavigationOnClickListener {
+            notify("哈哈啥")
+//            binding.drawerLayout.openDrawer(binding.navView)
         }
     }
 }
