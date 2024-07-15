@@ -1,5 +1,6 @@
 package com.yuri.journal.common
 
+import android.graphics.Color
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -18,5 +19,12 @@ abstract class BaseActivity<VB: ViewBinding> : BaseBinding<VB>, AppCompatActivit
 
         // 初始化顶部
         enableEdgeToEdge()
+
+        window.statusBarColor = Color.TRANSPARENT
+
+        window.decorView.post {
+            window.navigationBarColor = Color.TRANSPARENT
+            window.isNavigationBarContrastEnforced = false
+        }
     }
 }
