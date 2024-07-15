@@ -95,7 +95,7 @@ class JournalList @JvmOverloads constructor (
                     itemClickCallBack(value.id!!)
                 }
             }
-            binding.time.text = "$position: ${value.createTime}"
+            binding.time.text = value.createTime
             binding.desc.text = value.content
 //            binding.desc.ellipsize(10)
 
