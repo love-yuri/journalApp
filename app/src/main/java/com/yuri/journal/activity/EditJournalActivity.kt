@@ -20,6 +20,7 @@ import com.yuri.journal.database.entity.JournalEntity
 import com.yuri.journal.databinding.ActivityEditJournalBinding
 import com.yuri.journal.utils.MessageUtils.createDialog
 import com.yuri.journal.utils.MessageUtils.createToast
+import com.yuri.journal.utils.MessageUtils.notify
 import com.yuri.journal.utils.StringUtils.parseJson
 import com.yuri.journal.utils.TimeUtils
 import com.yuri.journal.utils.ViewUtils.inView
@@ -36,6 +37,7 @@ import kotlinx.serialization.json.Json
 class EditJournalActivity : BaseActivity<ActivityEditJournalBinding>() {
 
     private val viewModel: JournalViewModel = GlobalSharedConstant.journalViewModel
+    private var journalEntity: JournalEntity? = null
     private lateinit var config: Config
 
     enum class Mode {
@@ -62,6 +64,20 @@ class EditJournalActivity : BaseActivity<ActivityEditJournalBinding>() {
             binding.content.setText(value)
         }
 
+    private var time: String
+        get() = binding.time.text.toString()
+        set(value) {
+            binding.time.text = value
+        }
+
+    private var textCount: String
+        get() = binding.textCount.text.toString()
+        set(value) {
+            binding.textCount.text = value
+        }
+
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -76,20 +92,35 @@ class EditJournalActivity : BaseActivity<ActivityEditJournalBinding>() {
 
     private fun initView() {
         binding.toolbar.setNavigationOnClickListener {
-            when(config.mode) {
-                Mode.CREATE -> {
-                    if(config.id == null && content.isNotEmpty()) {
-                        saveJournal()
-                    }
-                    finish()
+            finish()
+        }
+
+        binding.content.changeCallBack = { text ->
+            textCount = "${text.length}字"
+        }
+    }
+
+    override fun onDestroy() {
+        autoSave()
+        super.onDestroy()
+    }
+
+    /**
+     * 退出执行自动保存任务
+     */
+    private fun autoSave() {
+        when(config.mode) {
+            Mode.CREATE -> {
+                if(config.id == null && content.isNotEmpty()) {
+                    saveJournal()
                 }
-                Mode.EDIT -> {
-                    if(config.id != null && content.isNotEmpty()) {
-                        updateJournal()
-                        finish()
-                    } else {
-                        createDialog("数据异常!!!")
-                    }
+            }
+            Mode.EDIT -> {
+                if(config.id != null && content.isNotEmpty()) {
+                    updateJournal()
+                } else {
+                    createDialog("数据异常!!!")
+                    notify("数据保存异常")
                 }
             }
         }
@@ -109,14 +140,16 @@ class EditJournalActivity : BaseActivity<ActivityEditJournalBinding>() {
      * 更新数据
      */
     private fun updateJournal() {
-        viewModel.update(
-            JournalEntity(
-                config.id,
-                title,
-                content,
+        journalEntity?.also {
+            if (it.content == content && it.title == title) {
+                return
+            }
+            viewModel.update(it.copy(
+                title = title,
+                content = content,
                 updateTime = TimeUtils.now
-            )
-        )
+            ))
+        }
     }
 
     /**
@@ -145,8 +178,8 @@ class EditJournalActivity : BaseActivity<ActivityEditJournalBinding>() {
      * 检查有没有点击到空白区域
      */
     private fun checkEmptyViewClick(x: Int, y: Int): Boolean {
-        for (i in 0 until binding.scrollView.childCount) {
-            val child = binding.scrollView.getChildAt(i)
+        for (i in 0 until binding.nestedScrollView.childCount) {
+            val child = binding.nestedScrollView.getChildAt(i)
             val location = IntArray(2)
             child.getLocationOnScreen(location)
 
@@ -193,12 +226,18 @@ class EditJournalActivity : BaseActivity<ActivityEditJournalBinding>() {
                     val dao = AppDatabase.journalDao
                     lifecycleScope.launch {
                         dao.getById(config.id!!)?.also { journal ->
+                            journalEntity = journal
                             withContext(Dispatchers.Main) {
                                 title = journal.title ?: ""
                                 content = journal.content
+                                time = journal.updateTime
+                                textCount = "${content.length}字"
                             }
                         }
                     }
+                } else {
+                    time = TimeUtils.now
+                    textCount = "0字"
                 }
             } catch (e: Exception) {
                 log.e("配置解析错误, msg: ${e.message}")
