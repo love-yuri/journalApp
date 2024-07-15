@@ -45,17 +45,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     private fun initEvent() {
         binding.fab.setOnClickListener {
             startEditJournalActivity(EditJournalActivity.Mode.CREATE)
-//            val res = viewModel.insert(JournalEntity(
-//                null,
-//                "sfsd ",
-//                "",
-//                null,
-//            ))
         }
 
         binding.toolbar.setNavigationOnClickListener {
-            notify("哈哈啥")
-//            binding.drawerLayout.openDrawer(binding.navView)
+            binding.drawerLayout.openDrawer(binding.navView)
         }
     }
 }
