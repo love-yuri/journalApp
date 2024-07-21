@@ -1,6 +1,9 @@
 package com.yuri.journal.common
 
+import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
 import java.lang.reflect.Method
 import java.lang.reflect.ParameterizedType
@@ -9,12 +12,21 @@ internal sealed interface BaseBinding<VB: ViewBinding> {
     val binding: VB
 
     // 绑定
-    fun <T: ViewBinding> inflateBinding(inflater: LayoutInflater): T {
+    fun <T: ViewBinding> inflateBinding(
+        inflater: LayoutInflater,
+        container: ViewGroup? = null
+    ): T {
         var clazz: Class<*> = javaClass
         while (clazz.superclass != null) {
             clazz.findBindingMethod()?.let {
-                @Suppress("UNCHECKED_CAST")
-                return it.invoke(null, inflater) as T
+
+                if (Fragment::class.java.isAssignableFrom(clazz)) {
+                    @Suppress("UNCHECKED_CAST")
+                    return it.invoke(null, inflater, container, false) as T
+                } else {
+                    @Suppress("UNCHECKED_CAST")
+                    return it.invoke(null, inflater) as T
+                }
             } ?.run {
                 clazz = clazz.superclass
             }
@@ -31,11 +43,16 @@ internal sealed interface BaseBinding<VB: ViewBinding> {
         binding = ActivityMainBinding.inflate(layoutInflater)
     */
     fun Class<*>.findBindingMethod(): Method? {
-        return (genericSuperclass as? ParameterizedType)?.actualTypeArguments // 获取模板列表
-            ?.asSequence() // 转为kotlin元序列方便处理
-            ?.filterIsInstance<Class<*>>() // 过滤出所有的类
-            ?.firstOrNull { it.simpleName.endsWith("Binding") } // 找到对应的Binding类
-            ?.getDeclaredMethod("inflate", LayoutInflater::class.java) // 找到绑定类inflater
+        val types: Array<Class<*>> = if (Fragment::class.java.isAssignableFrom(this)) {
+            arrayOf(LayoutInflater::class.java, ViewGroup::class.java, Boolean::class.java)
+        } else {
+            arrayOf(LayoutInflater::class.java,)
+        }
+        return (genericSuperclass as? ParameterizedType)?.actualTypeArguments
+            ?.asSequence()
+            ?.filterIsInstance<Class<*>>()
+            ?.firstOrNull { it.simpleName.endsWith("Binding") }
+            ?.getDeclaredMethod("inflate", *types)
             ?.also { it.isAccessible = true }
     }
 }
