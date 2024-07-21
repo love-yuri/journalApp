@@ -7,9 +7,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.MotionEvent
-import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.viewModelScope
 import com.yuri.journal.R
 import com.yuri.journal.common.BaseActivity
 import com.yuri.journal.common.log
@@ -82,6 +80,8 @@ class EditJournalActivity : BaseActivity<ActivityEditJournalBinding>() {
         super.onCreate(savedInstanceState)
 
         setSupportActionBar(binding.toolbar)
+
+        window.statusBarColor = getColor(R.color.toolbarColor)
 
         // 初始化界面
         initView()

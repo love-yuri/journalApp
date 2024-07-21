@@ -41,6 +41,11 @@ android {
 }
 
 dependencies {
+    /* retrofit 网络请求库 */
+    implementation (libs.retrofit)
+    implementation (libs.converter.gson)
+    implementation (libs.logging.interceptor)
+
     /* json解析 */
     implementation(libs.kotlinx.serialization.json)
 
