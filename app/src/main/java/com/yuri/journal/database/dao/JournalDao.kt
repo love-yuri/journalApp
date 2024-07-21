@@ -21,7 +21,7 @@ interface JournalDao {
     @Delete
     suspend fun delete(value: JournalEntity): Int
 
-    @Query("select * from $JOURNAL_TABLE_NAME")
+    @Query("select * from $JOURNAL_TABLE_NAME order by createTime desc")
     suspend fun list(): List<JournalEntity>
 
     @Query("delete from $JOURNAL_TABLE_NAME where id = :id")
