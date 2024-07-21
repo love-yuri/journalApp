@@ -1,13 +1,13 @@
 package com.yuri.journal.utils
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.graphics.Rect
-import android.os.Build
 import android.provider.Settings
+import android.util.DisplayMetrics
 import android.view.MotionEvent
 import android.view.View
+import android.view.WindowMetrics
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity.INPUT_METHOD_SERVICE
 import androidx.core.app.NotificationManagerCompat
@@ -56,4 +56,22 @@ object ViewUtils {
             putExtra(Settings.EXTRA_APP_PACKAGE, packageName)
         })
     }
+
+    /**
+     * 获取屏幕高度
+     */
+    val Activity.screenHeight: Int
+        get() {
+            val windowMetrics: WindowMetrics = windowManager.currentWindowMetrics
+            return windowMetrics.bounds.height()
+        }
+
+    /**
+     * 获取屏幕宽度
+     */
+    val Activity.screenWidth: Int
+        get() {
+            val windowMetrics: WindowMetrics = windowManager.currentWindowMetrics
+            return windowMetrics.bounds.width()
+        }
 }
