@@ -10,6 +10,7 @@ import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.BitmapFactory
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity.NOTIFICATION_SERVICE
 import androidx.core.app.NotificationCompat
@@ -25,6 +26,10 @@ import com.yuri.journal.constants.ActivityConstant.DEFAULT_NOTIFY_CHANNEL_NAME
 object MessageUtils {
     fun Context.createToast(msg: String) {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
+    }
+
+    fun View.createToast(msg: String) {
+        Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
     }
 
     fun Context.createDialog(title: String, msg: String, listener: DialogInterface.OnClickListener? = null) {
