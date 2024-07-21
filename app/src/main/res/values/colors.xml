@@ -3,4 +3,6 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="toolbarColor">#FF99CC</color>
+    <color name="CircleViewOutColor">#FFCCFF</color>
+    <color name="CircleViewInnerColor">#CC99FF</color>
 </resources>

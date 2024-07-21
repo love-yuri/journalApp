@@ -4,6 +4,6 @@
 
     <item
         android:title=""
-        android:icon="@drawable/notify"
+        android:icon="@drawable/smail"
         app:showAsAction="always" />
 </menu>

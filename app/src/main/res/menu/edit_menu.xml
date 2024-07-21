@@ -6,14 +6,7 @@
         android:id="@+id/share"
         android:title=""
         app:showAsAction="always"
-        android:icon="@drawable/share"
-        tools:ignore="AlwaysShowAction" />
-
-    <item
-        android:id="@+id/theme"
-        android:title=""
-        app:showAsAction="always"
-        android:icon="@drawable/theme"
+        android:icon="@drawable/kiss"
         tools:ignore="AlwaysShowAction" />
 
     <item

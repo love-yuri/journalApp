@@ -3,27 +3,27 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
-    android:fitsSystemWindows="true"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
 
     tools:context=".activity.EditJournalActivity">
 
     <com.google.android.material.appbar.AppBarLayout
-        android:elevation="0dp"
         android:id="@+id/appbar"
         style="?appBarLayoutStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="top"
-        android:background="@android:color/transparent"
+        android:background="@color/toolbarColor"
+        android:elevation="0dp"
         app:liftOnScroll="true">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
+            android:background="@color/toolbarColor"
             android:minHeight="?attr/actionBarSize"
             app:liftOnScroll="true"
             app:menu="@menu/edit_menu"
@@ -33,9 +33,9 @@
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/nestedScrollView"
-        android:paddingBottom="20dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:paddingBottom="20dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
@@ -46,31 +46,31 @@
             android:orientation="vertical"
             android:paddingHorizontal="@dimen/fab_margin">
 
-            <androidx.cardview.widget.CardView
+            <com.google.android.material.card.MaterialCardView
+                style="@style/MyCardViewStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardCornerRadius="6dp"
-                style="@style/MyCardViewStyle">
+                app:cardCornerRadius="6dp">
 
                 <EditText
                     android:id="@+id/title"
-                    android:padding="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:autofillHints=""
                     android:background="@null"
                     android:hint="@string/title"
                     android:inputType="text"
+                    android:padding="10dp"
                     android:textSize="23sp" />
 
-            </androidx.cardview.widget.CardView>
+            </com.google.android.material.card.MaterialCardView>
 
 
             <LinearLayout
-                android:padding="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:padding="10dp">
 
                 <TextView
                     android:id="@+id/time"
@@ -101,23 +101,22 @@
 
             </LinearLayout>
 
-
-            <androidx.cardview.widget.CardView
+            <com.google.android.material.card.MaterialCardView
+                style="@style/MyCardViewStyle"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:cardCornerRadius="6dp"
-                style="@style/MyCardViewStyle">
+                app:cardCornerRadius="6dp">
 
-            <com.yuri.journal.components.JournalEditText
-                android:id="@+id/content"
-                android:padding="10dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@null"
-                android:textSize="@dimen/content_size"
-                android:hint="@string/start_edit_tip" />
+                <com.yuri.journal.components.JournalEditText
+                    android:id="@+id/content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:hint="@string/start_edit_tip"
+                    android:padding="10dp"
+                    android:textSize="@dimen/content_size" />
 
-           </androidx.cardview.widget.CardView>
+            </com.google.android.material.card.MaterialCardView>
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

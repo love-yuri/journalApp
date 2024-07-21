@@ -7,12 +7,12 @@
         <!-- 卡片的背景颜色 -->
         <item name="cardBackgroundColor">@android:color/white</item>
         <!-- 卡片的阴影高度 -->
-        <item name="cardElevation">4dp</item>
+        <item name="cardElevation">0dp</item>
         <!-- 卡片的圆角 -->
         <item name="cardCornerRadius">4dp</item>
-        <!-- 边框宽度 -->
-        <item name="strokeWidth">1dp</item>
-        <!-- 边框颜色 -->
-        <item name="strokeColor">#5C3B97</item>
+<!--        &lt;!&ndash; 边框宽度 &ndash;&gt;-->
+<!--        <item name="strokeWidth">1dp</item>-->
+<!--        &lt;!&ndash; 边框颜色 &ndash;&gt;-->
+<!--        <item name="strokeColor">#5C3B97</item>-->
     </style>
 </resources>
