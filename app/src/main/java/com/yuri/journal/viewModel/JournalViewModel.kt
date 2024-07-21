@@ -28,7 +28,7 @@ class JournalViewModel: ViewModel() {
         viewModelScope.launch {
             val res = AppDatabase.journalDao.insert(entity)
             if (res != 0L) {
-                data.value?.add(entity.copy(
+                data.value?.add(0, entity.copy(
                     id = res.toInt()
                 ))
                 data.postValue(data.value)
