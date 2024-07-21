@@ -20,6 +20,7 @@ import com.yuri.journal.common.BaseMediatorLiveData
 import com.yuri.journal.constants.GlobalSharedConstant
 import com.yuri.journal.utils.MessageUtils.createToast
 import com.yuri.journal.utils.StringUtils.ellipsize
+import com.yuri.journal.utils.TimeUtils.formatDateTime
 
 /**
  * 重写RecycleView 实现特定的功能和数据展示
@@ -95,8 +96,9 @@ class JournalList @JvmOverloads constructor (
                     itemClickCallBack(value.id!!)
                 }
             }
-            binding.time.text = value.createTime
-            binding.desc.text = value.content
+            binding.headTime.text = value.createTime.formatDateTime()
+            binding.time.text = value.updateTime
+            binding.desc.text = value.content.substring(0, value.content.length.coerceAtMost(30))
 //            binding.desc.ellipsize(10)
 
         }
