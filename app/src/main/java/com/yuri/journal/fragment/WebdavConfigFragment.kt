@@ -21,6 +21,7 @@ import com.yuri.journal.retrofit.WebDavRetrofit.WebDavService
 import com.yuri.journal.utils.MessageUtils.createToast
 import com.yuri.journal.utils.SharedPreferencesUtils.getSp
 import com.yuri.journal.utils.SharedPreferencesUtils.setSp
+import com.yuri.journal.utils.XmlUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -85,13 +86,15 @@ class WebdavConfigFragment : BaseFragment<WebdavConfigBinding>() {
             lifecycleScope.launch {
                 try {
                     val response = WebDavRetrofit.service.dir(
-                        "/dav/$DB_FOLDER/",
-                        "Basic ${Base64.encodeToString("$account:$password".toByteArray(), Base64.NO_WRAP)}",
+                        "dav/$DB_FOLDER",
+                        "Basic ${Base64.encodeToString("2078170658@qq.com:anp5yqxr435upzhu".toByteArray(), Base64.NO_WRAP)}",
                         "text/xml"
                     )
 
-                    val responseBody = response
-                    context?.createToast("发送成功: $responseBody")
+                    val responseBody = response.string()
+                    log.i("xml: $responseBody")
+                    XmlUtils.parseXml(responseBody)
+                    context?.createToast("发送成功: $response")
                 } catch (e: Exception) {
                     log.e("错误: $e")
                     context?.createToast("失败!! msg: ${e}")

@@ -17,6 +17,7 @@ object WebDavRetrofit {
     val service: WebDavService by lazy {
         retrofit.create(WebDavService::class.java)
     }
+
     interface WebDavService {
         @Headers("Depth: 1")
         @HTTP(method = "PROPFIND", hasBody = false)
@@ -33,4 +34,12 @@ object WebDavRetrofit {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
+
+    data class WebdavFile(
+        val isFile: Boolean,
+        val isFolder: Boolean,
+        val path: String,
+        val parent: String?,
+        val children: List<WebdavFile>?
+    )
 }
