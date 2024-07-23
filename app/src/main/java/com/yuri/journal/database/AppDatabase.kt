@@ -1,6 +1,7 @@
 package com.yuri.journal.database
 
 import android.app.Application
+import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
@@ -34,5 +35,15 @@ object AppDatabase: AutoCloseable {
         if (::db.isInitialized) {
             db.close()
         }
+    }
+
+    /**
+     * 返回三个数据库文件的path合集
+     */
+    fun Context.dbFiles(): List<String> {
+        val dbPath = getDatabasePath(DataBaseConstant.DATABASE_FILE_NAME).path
+        val walPath = "$dbPath-wal"
+        val shmPath = "$dbPath-shm"
+        return listOf(dbPath, walPath, shmPath)
     }
 }
