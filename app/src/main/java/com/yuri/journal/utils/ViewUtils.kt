@@ -1,6 +1,7 @@
 package com.yuri.journal.utils
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.graphics.Rect
 import android.provider.Settings
@@ -74,4 +75,7 @@ object ViewUtils {
             val windowMetrics: WindowMetrics = windowManager.currentWindowMetrics
             return windowMetrics.bounds.width()
         }
+    fun Context.s(id: Int): String {
+        return resources.getString(id)
+    }
 }
