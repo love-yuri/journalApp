@@ -1,13 +1,15 @@
 package com.yuri.journal.utils
 
 import com.yuri.journal.common.log
+import com.yuri.journal.retrofit.WebDavRetrofit
 import org.xmlpull.v1.XmlPullParser
 import org.xmlpull.v1.XmlPullParserFactory
 import java.io.ByteArrayInputStream
+import java.util.Stack
 
 object XmlUtils {
-    fun parseXml(response: String) {
-        val inputStream = ByteArrayInputStream(response.toByteArray()) // 将响应字符串转换为输入流
+    fun String.parseWebDavXml(): List<WebDavRetrofit.WebdavFile> {
+        val inputStream = ByteArrayInputStream(toByteArray()) // 将响应字符串转换为输入流
 
         val factory = XmlPullParserFactory.newInstance()
         val parser = factory.newPullParser()
@@ -15,21 +17,26 @@ object XmlUtils {
         parser.setInput(inputStream, "utf-8") // 设置XmlPullParser的输入流
 
         var eventType = parser.eventType
+        val fileList = mutableListOf<WebDavRetrofit.WebdavFile>()
+        var currentFile: WebDavRetrofit.WebdavFile = WebDavRetrofit.WebdavFile()
         while (eventType != XmlPullParser.END_DOCUMENT) {
             if (eventType == XmlPullParser.START_TAG) {
-                val tagName = parser.name
-
-                // 根据需要解析特定的标签和属性，并进行相应处理
-                if (tagName == "d:href") {
-                    val text = parser.nextText() // 获取指定标签的文本内容
-
-                    log.i("d:href ${parser.lineNumber}")
-                    // 处理解析的数据
+                when (parser.name) {
+                    "d:response" -> currentFile = WebDavRetrofit.WebdavFile()
+                    "d:href" -> currentFile.path = parser.nextText()
+                    "d:resourcetype" -> {
+                        currentFile.isFile = parser.isEmptyElementTag
+                        currentFile.isFolder = !parser.isEmptyElementTag
+                    }
                 }
 
+            } else if (eventType == XmlPullParser.END_TAG) {
+                if (parser.name == "d:response") {
+                    fileList.add(currentFile)
+                }
             }
-
             eventType = parser.next()
         }
+        return fileList
     }
 }
