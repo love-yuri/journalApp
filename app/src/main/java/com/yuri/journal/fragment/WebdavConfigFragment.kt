@@ -15,21 +15,13 @@ import com.yuri.journal.utils.ViewUtils.screenHeight
 import com.yuri.journal.constants.SharedPreferencesConstant.SpType
 import com.yuri.journal.constants.SharedPreferencesConstant.WebDavKey
 import com.yuri.journal.constants.WebDavConfig.DB_FOLDER
-import com.yuri.journal.constants.WebDavConfig.HOST
 import com.yuri.journal.retrofit.WebDavRetrofit
-import com.yuri.journal.retrofit.WebDavRetrofit.WebDavService
 import com.yuri.journal.utils.MessageUtils.createToast
 import com.yuri.journal.utils.SharedPreferencesUtils.getSp
 import com.yuri.journal.utils.SharedPreferencesUtils.setSp
-import com.yuri.journal.utils.XmlUtils
-import kotlinx.coroutines.Dispatchers
+import com.yuri.journal.utils.ViewUtils.s
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import okhttp3.ResponseBody
-import retrofit2.Call
-import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+
 
 
 class WebdavConfigFragment : BaseFragment<WebdavConfigBinding>() {
@@ -85,24 +77,19 @@ class WebdavConfigFragment : BaseFragment<WebdavConfigBinding>() {
 
             lifecycleScope.launch {
                 try {
-                    val response = WebDavRetrofit.service.dir(
-                        "dav/$DB_FOLDER",
-                        "Basic ${Base64.encodeToString("2078170658@qq.com:anp5yqxr435upzhu".toByteArray(), Base64.NO_WRAP)}",
-                        "text/xml"
-                    )
-
-                    val responseBody = response.string()
-                    log.i("xml: $responseBody")
-                    XmlUtils.parseXml(responseBody)
-                    context?.createToast("发送成功: $response")
+                    val fileList = WebDavRetrofit.dir(account!!, password!!)
+                    val folder = fileList.find { it.isFolder && it.path?.endsWith("$DB_FOLDER/") ?: false }
+                    if (folder == null) {
+                        context?.createToast("${context?.s(R.string.webdavFolderEmptyError)}")
+                    } else {
+                        context?.createToast(context?.s(R.string.webdavAuthSuccess) ?: "认证成功!!")
+                        this@WebdavConfigFragment.dismiss()
+                    }
                 } catch (e: Exception) {
                     log.e("错误: $e")
-                    context?.createToast("失败!! msg: ${e}")
+                    context?.createToast("${context?.s(R.string.webdavAuthError)} msg: ${e.message}")
                 }
-
             }
-
-
         }
     }
 
