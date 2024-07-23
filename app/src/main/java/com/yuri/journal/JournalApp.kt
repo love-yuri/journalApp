@@ -1,15 +1,14 @@
 package com.yuri.journal
 
-import android.app.Activity
 import android.app.Application
-import android.os.Bundle
-import android.util.Log
 import com.yuri.journal.common.AppDestroyedCallBack
 import com.yuri.journal.constants.GlobalSharedConstant
 import com.yuri.journal.database.AppDatabase
-import com.yuri.journal.utils.MessageUtils
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 
 class JournalApp: Application() {
+    private val applicationScope = CoroutineScope(Dispatchers.Default)
 
     override fun onCreate() {
         super.onCreate()
@@ -22,5 +21,9 @@ class JournalApp: Application() {
 
         //初始化全局周期数据
         GlobalSharedConstant.init(this)
+
+        // 初始化周期函数
+        AppDestroyedCallBack.init(this)
+
     }
 }
