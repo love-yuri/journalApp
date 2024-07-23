@@ -48,4 +48,7 @@
     <string name="webdavPasswordEmpty">WebDav密码为空!!!</string>
     <string name="saveOk">保存成功!</string>
     <string name="action_webdav_settings">webdav设置</string>
+    <string name="webdavAuthError">认证失败!!！</string>
+    <string name="webdavAuthSuccess">认证成功!!!</string>
+    <string name="webdavFolderEmptyError">认证失败，文件夹不存在!!!</string>
 </resources>
