@@ -39,6 +39,8 @@
             </intent-filter>
         </activity>
 
+        <!-- 备份数据库文件 service -->
+        <service android:name=".service.BackupDbService" android:enabled="true" />
     </application>
 
 </manifest>
