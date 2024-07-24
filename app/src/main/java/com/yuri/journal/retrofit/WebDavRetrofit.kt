@@ -97,13 +97,13 @@ object WebDavRetrofit {
      * 上传文件
      */
 
-    suspend fun upload(account: String, password: String, file: File): Boolean {
+    suspend fun upload(account: String, password: String, file: File, fileName: String = file.name): Boolean {
         try {
             return try {
                 if (!file.exists()) {
                     return false
                 }
-                val url = "dav/$DB_FOLDER/${file.name}"
+                val url = "dav/$DB_FOLDER/$fileName"
                 val authorization = "Basic ${Base64.encodeToString("$account:$password".toByteArray(), Base64.NO_WRAP)}"
                 val contentType = "application/octet-stream"
                 val contentLength = file.length()
@@ -111,6 +111,7 @@ object WebDavRetrofit {
                 val requestBody = RequestBody.create(mediaType, file)
 
                 val response = service.uploadFile(url, authorization, contentType, contentLength, requestBody)
+                log.i(response.toString())
                 response.code() == 201 || response.code() == 204
             } catch (e: Exception) {
                 log.e("解析错误: ${e.message}")
