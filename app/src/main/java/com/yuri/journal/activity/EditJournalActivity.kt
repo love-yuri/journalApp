@@ -16,6 +16,7 @@ import com.yuri.journal.constants.GlobalSharedConstant
 import com.yuri.journal.database.AppDatabase
 import com.yuri.journal.database.entity.JournalEntity
 import com.yuri.journal.databinding.ActivityEditJournalBinding
+import com.yuri.journal.service.BackupDbService
 import com.yuri.journal.utils.MessageUtils.createDialog
 import com.yuri.journal.utils.MessageUtils.createToast
 import com.yuri.journal.utils.MessageUtils.notify
@@ -124,6 +125,7 @@ class EditJournalActivity : BaseActivity<ActivityEditJournalBinding>() {
                 }
             }
         }
+        startService(Intent(this, BackupDbService::class.java))
     }
 
     /**
