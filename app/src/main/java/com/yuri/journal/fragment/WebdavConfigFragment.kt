@@ -1,7 +1,6 @@
 package com.yuri.journal.fragment
 
 import android.os.Bundle
-import android.util.Base64
 import android.view.View
 import android.widget.FrameLayout
 import androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -77,6 +76,7 @@ class WebdavConfigFragment : BaseFragment<WebdavConfigBinding>() {
 
             lifecycleScope.launch {
                 try {
+
                     val fileList = WebDavRetrofit.dir(account!!, password!!)
                     val folder = fileList.find { it.isFolder && it.path?.endsWith("$DB_FOLDER/") ?: false }
                     if (folder == null) {
@@ -92,6 +92,7 @@ class WebdavConfigFragment : BaseFragment<WebdavConfigBinding>() {
             }
         }
     }
+
 
     companion object {
         const val TAG = "ModalBottomSheet"
