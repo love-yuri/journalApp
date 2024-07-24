@@ -1,16 +1,13 @@
 package com.yuri.journal.activity
 
-
 import android.graphics.Color
 import android.os.Bundle
-import android.widget.Button
 import com.yuri.journal.R
 import com.yuri.journal.activity.EditJournalActivity.Companion.startEditJournalActivity
 import com.yuri.journal.common.BaseActivity
 import com.yuri.journal.constants.GlobalSharedConstant
 import com.yuri.journal.databinding.ActivityMainBinding
 import com.yuri.journal.fragment.WebdavConfigFragment
-import com.yuri.journal.utils.MessageUtils.createToast
 import com.yuri.journal.utils.ViewUtils.goToSetNotify
 import com.yuri.journal.utils.ViewUtils.isOpenNotify
 import com.yuri.journal.viewModel.JournalViewModel
