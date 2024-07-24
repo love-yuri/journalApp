@@ -12,6 +12,7 @@ import android.view.WindowMetrics
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity.INPUT_METHOD_SERVICE
 import androidx.core.app.NotificationManagerCompat
+import com.yuri.journal.service.BackupDbService
 
 
 object ViewUtils {
