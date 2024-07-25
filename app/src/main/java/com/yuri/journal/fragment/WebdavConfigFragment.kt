@@ -9,6 +9,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.yuri.journal.R
 import com.yuri.journal.common.BaseFragment
 import com.yuri.journal.common.log
+import com.yuri.journal.constants.GlobalSharedConstant
 import com.yuri.journal.databinding.WebdavConfigBinding
 import com.yuri.journal.utils.ViewUtils.screenHeight
 import com.yuri.journal.constants.SharedPreferencesConstant.SpType
@@ -25,19 +26,13 @@ import kotlinx.coroutines.launch
 
 class WebdavConfigFragment : BaseFragment<WebdavConfigBinding>() {
 
-    private var account: String?
-        get() = context?.getSp(SpType.WEBDAV, WebDavKey.ACCOUNT)
-        set(value) = context?.setSp(SpType.WEBDAV, WebDavKey.ACCOUNT, value) ?: Unit
-
-    private var password: String?
-        get() = context?.getSp(SpType.WEBDAV, WebDavKey.PASSWORD)
-        set(value) = context?.setSp(SpType.WEBDAV, WebDavKey.PASSWORD, value) ?: Unit
+    override val tagName: String get() = "WebdavConfigFragment"
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         
-        binding.account.editText?.setText(account)
-        binding.password.editText?.setText(password)
+        binding.account.editText?.setText(GlobalSharedConstant.account)
+        binding.password.editText?.setText(GlobalSharedConstant.password)
 
         /**
          * 设置他的弹出高度
@@ -55,7 +50,6 @@ class WebdavConfigFragment : BaseFragment<WebdavConfigBinding>() {
             }
         }
 
-
         /**
          * 设置保存按钮事件
          */
@@ -70,14 +64,14 @@ class WebdavConfigFragment : BaseFragment<WebdavConfigBinding>() {
                 context?.createToast(getString(R.string.webdavPasswordEmpty))
                 return@setOnClickListener
             }
-            account = accountText.toString()
-            password = passwordText.toString()
+            GlobalSharedConstant.account = accountText.toString()
+            GlobalSharedConstant.password = passwordText.toString()
 //            context?.createToast(getString(R.string.saveOk))
 
             lifecycleScope.launch {
                 try {
 
-                    val fileList = WebDavRetrofit.dir(account!!, password!!)
+                    val fileList = WebDavRetrofit.dir(GlobalSharedConstant.account!!, GlobalSharedConstant.password!!)
                     val folder = fileList.find { it.isFolder && it.path?.endsWith("$DB_FOLDER/") ?: false }
                     if (folder == null) {
                         context?.createToast("${context?.s(R.string.webdavFolderEmptyError)}")
@@ -91,10 +85,5 @@ class WebdavConfigFragment : BaseFragment<WebdavConfigBinding>() {
                 }
             }
         }
-    }
-
-
-    companion object {
-        const val TAG = "ModalBottomSheet"
     }
 }
