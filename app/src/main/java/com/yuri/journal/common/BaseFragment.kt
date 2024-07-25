@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.viewbinding.ViewBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -13,6 +12,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 abstract class BaseFragment<VB : ViewBinding> :  BaseBinding<VB>, BottomSheetDialogFragment() {
     override lateinit var binding: VB
     private var isShowing: Boolean = false
+    abstract val tagName: String
 
     override fun onCreateView(
         inflater: LayoutInflater,
