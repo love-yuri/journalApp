@@ -8,6 +8,7 @@ import com.yuri.journal.common.BaseActivity
 import com.yuri.journal.constants.GlobalSharedConstant
 import com.yuri.journal.databinding.ActivityMainBinding
 import com.yuri.journal.fragment.WebdavConfigFragment
+import com.yuri.journal.fragment.WebdavReplyFragment
 import com.yuri.journal.utils.ViewUtils.goToSetNotify
 import com.yuri.journal.utils.ViewUtils.isOpenNotify
 import com.yuri.journal.viewModel.JournalViewModel
@@ -16,6 +17,7 @@ import com.yuri.journal.viewModel.JournalViewModel
 class MainActivity : BaseActivity<ActivityMainBinding>() {
     private val viewModel: JournalViewModel = GlobalSharedConstant.journalViewModel
     private val webdavConfig = WebdavConfigFragment()
+    private val webdavReply = WebdavReplyFragment()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,7 +60,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             item.isChecked = true
             when(item.itemId) {
                 R.id.action_webdav_settings -> {
-                    webdavConfig.show(supportFragmentManager, WebdavConfigFragment.TAG)
+                    webdavConfig.show(supportFragmentManager, webdavConfig.tagName)
+                }
+                R.id.action_webdav_reply -> {
+                    webdavReply.show(supportFragmentManager, webdavReply.tagName)
                 }
             }
             true
