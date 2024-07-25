@@ -27,6 +27,7 @@ object XmlUtils {
                     "d:resourcetype" -> {
                         currentFile.isFile = parser.isEmptyElementTag
                         currentFile.isFolder = !parser.isEmptyElementTag
+                        currentFile.fileName = currentFile.path?.substringAfterLast("/")
                     }
                 }
 
