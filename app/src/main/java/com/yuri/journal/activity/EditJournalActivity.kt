@@ -17,7 +17,7 @@ import com.yuri.journal.database.AppDatabase
 import com.yuri.journal.database.entity.JournalEntity
 import com.yuri.journal.databinding.ActivityEditJournalBinding
 import com.yuri.journal.service.BackupDbService
-import com.yuri.journal.utils.MessageUtils.createDialog
+import com.yuri.journal.utils.MessageUtils.createErrorDialog
 import com.yuri.journal.utils.MessageUtils.createToast
 import com.yuri.journal.utils.MessageUtils.notify
 import com.yuri.journal.utils.StringUtils.parseJson
@@ -120,12 +120,11 @@ class EditJournalActivity : BaseActivity<ActivityEditJournalBinding>() {
                 if(config.id != null && content.isNotEmpty()) {
                     updateJournal()
                 } else {
-                    createDialog("数据异常!!!")
+                    createErrorDialog("数据异常!!!")
                     notify("数据保存异常")
                 }
             }
         }
-        startService(Intent(this, BackupDbService::class.java))
     }
 
     /**
@@ -136,6 +135,7 @@ class EditJournalActivity : BaseActivity<ActivityEditJournalBinding>() {
             title = title,
             content = content
         ))
+        startService(Intent(this, BackupDbService::class.java))
     }
 
     /**
@@ -151,6 +151,7 @@ class EditJournalActivity : BaseActivity<ActivityEditJournalBinding>() {
                 content = content,
                 updateTime = TimeUtils.now
             ))
+            startService(Intent(this, BackupDbService::class.java))
         }
     }
 
