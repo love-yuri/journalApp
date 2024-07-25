@@ -18,4 +18,13 @@ object StringUtils {
             text = ellipsizedText
         }
     }
+
+    fun String.baseFileName(): String {
+        val index = lastIndexOf('.')
+        return if (index > 0) {
+            substring(0, index)
+        } else {
+            this
+        }
+    }
 }
