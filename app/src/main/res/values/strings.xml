@@ -51,4 +51,7 @@
     <string name="webdavAuthError">认证失败!!！</string>
     <string name="webdavAuthSuccess">认证成功!!!</string>
     <string name="webdavFolderEmptyError">认证失败，文件夹不存在!!!</string>
+    <string name="webdav_reply">备份历史</string>
+    <string name="action_webdav_reply">恢复历史</string>
+    <string name="replyHistory">要恢复历史记录吗?</string>
 </resources>

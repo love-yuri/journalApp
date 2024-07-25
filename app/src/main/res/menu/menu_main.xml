@@ -8,4 +8,11 @@
         android:orderInCategory="100"
         android:title="@string/action_webdav_settings"
         app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_webdav_reply"
+        android:icon="@drawable/reply"
+        android:orderInCategory="100"
+        android:title="@string/action_webdav_reply"
+        app:showAsAction="never" />
 </menu>
