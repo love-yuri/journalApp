@@ -1,7 +1,7 @@
 package com.yuri.journal.utils
 
 import android.app.Activity
-import android.app.Application
+import android.app.Dialog
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -29,9 +29,12 @@ object MessageUtils {
     }
 
     fun View.createToast(msg: String) {
-        Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
+        context.createToast(msg)
     }
 
+    /**
+     * 创建对话框
+     */
     fun Context.createDialog(title: String, msg: String, listener: DialogInterface.OnClickListener? = null) {
         MaterialAlertDialogBuilder(this)
             .setTitle(title)
@@ -40,7 +43,7 @@ object MessageUtils {
             .show()
     }
 
-    fun Activity.createDialog(msg: String) {
+    fun Activity.createErrorDialog(msg: String) {
         createDialog(getString(R.string.error), msg)
     }
 
