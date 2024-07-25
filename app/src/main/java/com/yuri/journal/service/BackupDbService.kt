@@ -1,11 +1,8 @@
 package com.yuri.journal.service
 
-import android.annotation.SuppressLint
-import android.app.Notification
 import android.app.Service
 import android.content.Intent
 import android.os.IBinder
-import com.yuri.journal.common.AppDestroyedCallBack
 import com.yuri.journal.common.log
 import com.yuri.journal.constants.DataBaseConstant
 import com.yuri.journal.constants.SharedPreferencesConstant
@@ -13,7 +10,6 @@ import com.yuri.journal.database.AppDatabase.dbFiles
 import com.yuri.journal.retrofit.WebDavRetrofit
 import com.yuri.journal.utils.FileUtils
 import com.yuri.journal.utils.SharedPreferencesUtils.getSp
-import com.yuri.journal.utils.TimeUtils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
